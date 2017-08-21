@@ -1,0 +1,1 @@
+A Spring project for creating a technology watching web platform
