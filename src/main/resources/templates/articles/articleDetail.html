@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+		<div class="row justify-content-center text-center">
+			<h2 th:text="${article.title}" class="col-12"></h2>
+		</div>
+		<div class="row text-center">
+			<a th:href="@{${article.url}}" target="_blank" th:text="${article.url}" class="col-12"></a>
+		</div>
+		<div class="row text-center">
+		<div  class="col-12">
+			<h2 th:text="'Votes : ' + ${article.rating.value}"></h2>
+				<div th:if="${vote}">
+					<form
+						th:action="@{/articles/{articleId}/{ratingId}(articleId = ${article.id}, ratingId = ${article.rating.id})}"
+						method="post">
+						<button type="submit" class="btn btn-info" title="I like it"><i class="material-icons">thumb_up</i></button>
+					</form>
+				</div>
+			</div>
+				<a  class="col-12" th:href="@{/articles/user/{userId}(userId= ${article.user.id})}" th:text="'Author : ' + ${article.user.userName}" title="See all publications by this author"></a>
+		</div>
+			
+		
+	
+		<div class="row justify-content-center">
+			<div class="col-8 form-group">
+				<form th:object="${comment}" method="post"
+					th:action="@{/articles/{articleId}/comment(articleId = ${article.id})}">
+					<label for="content">Add a comment</label>
+					<textarea name="content" id="content" class="form-control">
+				</textarea>
+					<button type="submit" class="btn btn-info">Save</button>
+				</form>
+			</div>
+		</div>
+	
+	
+		<div class="row justify-content-center">
+			<div th:each="comment : ${article.comments}" class="card"
+				style="width: 60rem;">
+				<div class="card-body">
+					<p class="card-text" th:text="${comment.content}"></p>
+					<h6 class="card-subtitle mb-2 text-muted text-right"
+						th:text="${comment.author}">Card subtitle</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
