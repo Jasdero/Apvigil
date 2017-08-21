@@ -22,6 +22,12 @@
 					<p th:if="${#fields.hasErrors('url')}"
 						th:errors="*{url}"></p>
 				</div>
+				<div class="form-group">
+					<label for="description">Description</label> 
+					<textarea th:field="*{description}" class="form-control"></textarea>
+					<p th:if="${#fields.hasErrors('description')}"
+						th:errors="*{description}"></p>
+				</div>
 				<button class="btn btn-info" type="submit" >Add Article</button>
 			</form>
 			</div>

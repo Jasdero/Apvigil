@@ -32,13 +32,19 @@ public class Article {
 	private Long id;
 	
 	@NotNull
-	@Length(min = 5)
+	@Length(min = 5, message= "*description should be at least 5 characters long")
 	private String title;
 	
 	@NotNull
 	@Column(columnDefinition="TEXT")
 	private String url;
 	
+	@NotNull
+	@Length(min = 10, message= "*description should be at least 10 characters long")
+	@Column(columnDefinition="TEXT")
+	private String description;
+	
+
 	@Column(name = "created_on")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn = new Date();
@@ -73,6 +79,15 @@ public class Article {
 		this.title =title;
 		this.url = url;
 		this.setUser(new User());
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

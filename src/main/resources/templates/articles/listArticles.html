@@ -8,11 +8,12 @@
 	<div class="container">
 	<h1 class="text-center" th:text="(@{__${#httpServletRequest.requestURI}__} == @{/articles})?'All articles' : 'Sorted articles'"></h1>
 		<div class="row mb-2" th:each="article : ${articles}">
-			<p class="col-auto"><span th:text="${article.title} + ' published on ' + ${#dates.format(article.createdOn, 'dd-MM-yyyy')} + ' by '" th:remove="tag"></span><em th:text="${article.user.userName}"></em> </p>
-			<a th:href="@{/articles/{articleId}(articleId = ${article.id})}" class="col-auto ml-auto btn btn-info" th:text="Details" ></a>
+			<a th:href="@{/articles/{articleId}(articleId = ${article.id})}" class="col-auto">
+			<span th:text="${article.title} + ' published on ' + ${#dates.format(article.createdOn, 'dd-MM-yyyy')} + ' by '" th:remove="tag"></span>
+			<em th:text="${article.user.userName}"></em>
+			 </a>
+			<button type="button" class="col-1 ml-auto btn btn-info inactive" th:text="'+' + ${article.rating.value}" disabled></button>
 		</div>
 	</div>
-
-
 </body>
 </html>
