@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import apside.apvigil.category.Category;
 import apside.apvigil.comment.Comment;
 import apside.apvigil.rating.Rating;
 import apside.apvigil.security.authentication.User;
@@ -52,6 +53,10 @@ public class Article {
 	@ManyToOne
 	private User user;
 	
+	@ManyToOne
+	private Category category;
+	
+
 	@OneToOne(mappedBy="article", cascade = CascadeType.ALL)
 	private Rating rating;
 	
@@ -74,11 +79,12 @@ public class Article {
 	}
 	
 	
-	public Article(Long id, String title, String url, User user) {
+	public Article(Long id, String title, String url, User user, Category category) {
 		this.id = id;
 		this.title =title;
 		this.url = url;
 		this.setUser(new User());
+		this.setCategory(new Category());
 	}
 	
 	public String getDescription() {
@@ -138,5 +144,13 @@ public class Article {
 	public void addComment(Comment comment) {
 		comment.setArticle(this);
 		comments.add(comment);
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 }

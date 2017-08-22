@@ -31,6 +31,8 @@ public class ArticleService {
 		return articles;
 	}
 	
+	
+	
 	public List<Article> getAllArticlesByUser(Long id) {
 		List<Article> articles = new ArrayList<>();
 		articleRepository.findByUserId(id).forEach(articles::add);
@@ -39,6 +41,12 @@ public class ArticleService {
 	
 	public Article findArticle(Long id) {
 		return articleRepository.findOne(id);
+	}
+	
+	public List<Article> getAllArticlesByCategory(Long id) {
+		List<Article> articles = new ArrayList<>();
+		articleRepository.findByCategoryId(id).forEach(articles::add);
+		return articles;
 	}
 
 }

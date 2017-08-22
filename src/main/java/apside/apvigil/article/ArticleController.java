@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import apside.apvigil.category.Category;
+import apside.apvigil.category.CategoryService;
 import apside.apvigil.comment.Comment;
 import apside.apvigil.comment.CommentService;
 import apside.apvigil.rating.Rating;
@@ -41,10 +43,19 @@ public class ArticleController {
 	@Autowired 
 	private CommentService commentService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	@ModelAttribute("user")
 	public User getUser() {
 		User user = getCurrentUser();
 		return user;
+	}
+	
+	@ModelAttribute("categories")
+	public List<Category> populateCategories(){
+		List<Category> categories = categoryService.getAllCategories();
+		return categories;
 	}
 	
 	
@@ -53,6 +64,13 @@ public class ArticleController {
 		ModelAndView mav = new ModelAndView("articles/listArticles");
 		mav.addObject("articles", articleService.getAllArticles());
 		return mav;
+	}
+	
+	@GetMapping("/articles/categories/{categoryId}")
+	public String getArticlesByCategory(Model model, @PathVariable("categoryId") long id) {
+		List<Article> articles = articleService.getAllArticlesByCategory(id);
+		model.addAttribute("articles", articles);
+		return "articles/listArticles";
 	}
 	
 	@GetMapping("/articles/new")

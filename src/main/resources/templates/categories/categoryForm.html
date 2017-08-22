@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<nav th:replace="index :: myNav"></nav>
+<body>
+
+	<div class="container">
+		<h2>Create a new category</h2>
+
+		<div class="row justify-content-center">
+		<div class="col-12">
+			<form th:object="${category}" method="post">
+				<div class="form-group">
+					<label for="name">Name</label> <input type="text"
+						th:field="*{name}" class="form-control" />
+					<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+				</div>
+				<button class="btn btn-info" type="submit" >Add Category</button>
+			</form>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
