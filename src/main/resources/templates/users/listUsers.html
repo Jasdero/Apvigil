@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+	<h1 class="text-center">Manage users</h1>
+		<div class="row mb-2" th:each="user : ${users}">
+			<a th:href="@{/users/{userId}(userId = ${user.id})}" class="col-auto">
+			<span th:text="${user.userName}"></span>
+			 </a>
+		</div>
+	</div>
+</body>
+</html>

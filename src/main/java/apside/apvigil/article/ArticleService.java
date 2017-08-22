@@ -26,17 +26,13 @@ public class ArticleService {
 	}
 	
 	public List<Article> getAllArticles() {
-		List<Article> articles = new ArrayList<>();
-		articleRepository.findAll().forEach(articles::add);
-		return articles;
+		return articleRepository.findAll();
 	}
 	
 	
 	
 	public List<Article> getAllArticlesByUser(Long id) {
-		List<Article> articles = new ArrayList<>();
-		articleRepository.findByUserId(id).forEach(articles::add);
-		return articles;
+		return articleRepository.findByUserId(id);
 	}
 	
 	public Article findArticle(Long id) {
@@ -44,9 +40,7 @@ public class ArticleService {
 	}
 	
 	public List<Article> getAllArticlesByCategory(Long id) {
-		List<Article> articles = new ArrayList<>();
-		articleRepository.findByCategoryId(id).forEach(articles::add);
-		return articles;
+		return articleRepository.findByCategoryId(id);
 	}
 
 }

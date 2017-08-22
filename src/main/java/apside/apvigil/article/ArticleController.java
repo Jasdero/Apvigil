@@ -46,7 +46,7 @@ public class ArticleController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@ModelAttribute("user")
+	@ModelAttribute("currentUser")
 	public User getUser() {
 		User user = getCurrentUser();
 		return user;
@@ -54,8 +54,7 @@ public class ArticleController {
 	
 	@ModelAttribute("categories")
 	public List<Category> populateCategories(){
-		List<Category> categories = categoryService.getAllCategories();
-		return categories;
+		return categoryService.findAllCategories();
 	}
 	
 	
@@ -68,8 +67,7 @@ public class ArticleController {
 	
 	@GetMapping("/articles/categories/{categoryId}")
 	public String getArticlesByCategory(Model model, @PathVariable("categoryId") long id) {
-		List<Article> articles = articleService.getAllArticlesByCategory(id);
-		model.addAttribute("articles", articles);
+		model.addAttribute("articles", articleService.getAllArticlesByCategory(id));
 		return "articles/listArticles";
 	}
 	
@@ -123,8 +121,7 @@ public class ArticleController {
 	
 	@GetMapping("/articles/user/{userId}")
 	public String getArticlesForUser(@PathVariable("userId") long id, Model model) {
-		List<Article> articles = articleService.getAllArticlesByUser(id);
-		model.addAttribute("articles", articles);
+		model.addAttribute("articles", articleService.getAllArticlesByUser(id));
 		return "articles/listArticles";
 	}
 	

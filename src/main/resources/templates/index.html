@@ -32,7 +32,7 @@
           <a class="dropdown-item" th:href="@{/articles/new}">Create</a>
         </div>
       </li>
-      <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+      <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Categories
         </a>
@@ -40,20 +40,25 @@
           <a class="dropdown-item" th:href="@{/categories}">List</a>
           <a class="dropdown-item" th:href="@{/categories/new}">Create</a>
         </div>
-      </li>    
+      </li>
+      <li class="nav-item" sec:authorize="hasRole('ROLE_SUPERADMIN')">
+        <a class="nav-link" th:href="@{/users}">
+          Users
+        </a>
+      </li>       
     </ul>
 
-	<ul th:if="${user.userName}" class="navbar-nav col-auto">
+	<ul th:if="${currentUser.userName}" class="navbar-nav col-auto">
 		<li class="nav-item dropdown">
-		  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${user.userName}">
+		  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${currentUser.userName}">
 		  </a>
 			  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-			  	<a class="dropdown-item" th:href="@{/articles/user/{userId}(userId = ${user.id})}">My publications</a>
+			  	<a class="dropdown-item" th:href="@{/articles/user/{userId}(userId = ${currentUser.id})}">My publications</a>
 			    <a class="dropdown-item" th:href="@{/logout}">Logout</a>
 			  </div>
 		</li>
 	</ul>
-	<div th:if="${user.userName} == null">
+	<div th:if="${currentUser.userName} == null">
 		<a th:href="@{/login}">Login</a>
 	</div>
   </div>

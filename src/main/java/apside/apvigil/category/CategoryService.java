@@ -1,6 +1,5 @@
 package apside.apvigil.category;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,7 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 	
-	public List<Category> getAllCategories() {
-		List<Category> categories = new ArrayList<>();
-		categoryRepository.findAll().forEach(categories::add);
-		return categories;
+	public List<Category> findAllCategories() {
+		return categoryRepository.findAll();
 	}
 }

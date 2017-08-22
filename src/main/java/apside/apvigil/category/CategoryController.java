@@ -1,6 +1,5 @@
 package apside.apvigil.category;
 
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,7 +21,7 @@ public class CategoryController {
 	
 	private final String CREATE_CATEGORY_FORM = "categories/categoryForm";
 	
-	@ModelAttribute("user")
+	@ModelAttribute("currentUser")
 	public User getUser() {
 		User user = getCurrentUser();
 		return user;
@@ -36,8 +35,7 @@ public class CategoryController {
 	
 	@GetMapping("/categories")
 	public String showAll(Model model) {
-		List<Category> categories = categoryService.getAllCategories();
-		model.addAttribute("categories", categories);
+		model.addAttribute("categories", categoryService.findAllCategories());
 		return "categories/listCategories";
 	}
 	

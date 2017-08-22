@@ -17,7 +17,7 @@ public class LoginController {
 	private UserService userService;
 
 	
-	@ModelAttribute("user")
+	@ModelAttribute("currentUser")
 	public User getUser() {
 		User user = new User();
 		return user;
