@@ -17,20 +17,16 @@
 
 
 <nav th:fragment="myNav" class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" th:href="@{/}">Home</a>
+  <a class="navbar-brand" th:href="@{/articles}"><i class="material-icons">home</i></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav col-11">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Articles
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/articles/new}" title="Publish">
+         	Publish
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
-          <a class="dropdown-item" th:href="@{/articles}">List</a>
-          <a class="dropdown-item" th:href="@{/articles/new}">Create</a>
-        </div>
       </li>
       <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

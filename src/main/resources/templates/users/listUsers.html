@@ -7,9 +7,9 @@
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
 	<h1 class="text-center">Manage users</h1>
-		<div class="row mb-4 mt-4 align-items-center" th:each="user : ${users}">
-			<a th:href="@{/users/{userId}(userId = ${user.id})}" class="col-auto">
-			<span th:text="${user.userName}"></span>
+		<div class="row mb-4 mt-4 align-items-center justify-content-between" th:each="user : ${users}">
+			<a th:href="@{/articles/user/{userId}(userId = ${user.id})}" class="col-5" title="See publications">
+			<span th:text="${user.userName} + ' - ' + ${user.email}"></span>
 			 </a>
 			 <div th:each="role : ${user.roles}" class="col-1" th:if="${role.role} == 'ROLE_USER'">
 			 <form th:action="@{/users/{userId}/promote(userId = ${user.id})}" method="post" class="form-group col-1 ml-auto">
