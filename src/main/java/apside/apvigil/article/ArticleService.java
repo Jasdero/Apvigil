@@ -1,6 +1,5 @@
 package apside.apvigil.article;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class ArticleService {
 		
 	}
 	
-	public List<Article> getAllArticles() {
-		return articleRepository.findAll();
+	public List<Article> getAllArticlesSorted() {
+		return articleRepository.getAllSortedByDate();
 	}
 	
 	

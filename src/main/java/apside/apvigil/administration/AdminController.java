@@ -17,7 +17,6 @@ import apside.apvigil.security.authentication.Role;
 import apside.apvigil.security.authentication.RoleRepository;
 import apside.apvigil.security.authentication.User;
 import apside.apvigil.security.authentication.UserRepository;
-import apside.apvigil.security.authentication.UserService;
 import apside.apvigil.security.authentication.UserServiceImpl;
 
 @Controller

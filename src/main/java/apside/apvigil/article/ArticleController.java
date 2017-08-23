@@ -61,7 +61,7 @@ public class ArticleController {
 	@GetMapping("/articles")
 	public ModelAndView listArticles() {
 		ModelAndView mav = new ModelAndView("articles/listArticles");
-		mav.addObject("articles", articleService.getAllArticles());
+		mav.addObject("articles", articleService.getAllArticlesSorted());
 		return mav;
 	}
 	
