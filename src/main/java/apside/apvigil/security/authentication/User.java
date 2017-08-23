@@ -19,6 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import apside.apvigil.rating.Rating;
 import apside.apvigil.article.Article;
+import apside.apvigil.category.Category;
 
 
 
@@ -48,9 +49,14 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "user_rating", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rating_id"))
 	private Set<Rating> ratings;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_category", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Article> articles;
@@ -123,6 +129,14 @@ public class User {
 
 	public void setRatings(Set<Rating> ratings) {
 		this.ratings = ratings;
+	}
+	
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 	

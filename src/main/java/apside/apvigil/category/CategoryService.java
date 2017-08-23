@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class CategoryService {
 
@@ -19,4 +20,11 @@ public class CategoryService {
 	public List<Category> findAllCategories() {
 		return categoryRepository.findAll();
 	}
+	
+	public Category findOne(Long id) {
+		return categoryRepository.findOne(id);
+	}
+	
+	
+	
 }

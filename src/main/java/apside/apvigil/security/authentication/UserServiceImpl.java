@@ -4,10 +4,14 @@ package apside.apvigil.security.authentication;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import apside.apvigil.category.Category;
+import apside.apvigil.category.CategoryRepository;
 
 
 @Service
@@ -19,6 +23,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -46,6 +53,20 @@ public class UserServiceImpl implements UserService{
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		userRepository.save(user);
 		
+	}
+	
+	public void saveFavoriteCategory(Category category, User user) {
+		Set<Category> categories = user.getCategories();
+		categories.add(category);
+		user.setCategories(categories);
+		categoryRepository.save(category);
+	}
+	
+	public void removeFavoriteCategory(Category category, User user) {
+		Set<Category> categories = user.getCategories();
+		categories.remove(category);
+		user.setCategories(categories);
+		categoryRepository.save(category);
 	}
 
 }

@@ -49,7 +49,7 @@
 		  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${currentUser.userName}">
 		  </a>
 			  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-			  	<a class="dropdown-item" th:href="@{/articles/user/{userId}(userId = ${currentUser.id})}">My publications</a>
+			  	<a class="dropdown-item" th:href="@{/profile/{userId}(userId = ${currentUser.id})}">My profile</a>
 			    <a class="dropdown-item" th:href="@{/logout}">Logout</a>
 			  </div>
 		</li>

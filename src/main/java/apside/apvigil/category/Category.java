@@ -2,14 +2,18 @@ package apside.apvigil.category;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 import apside.apvigil.article.Article;
+import apside.apvigil.security.authentication.User;
 
 
 
@@ -19,6 +23,7 @@ public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "category_id")
 	private Long id;
 	
 	@NotNull
@@ -26,6 +31,10 @@ public class Category {
 	
 	@OneToMany(mappedBy = "category")
 	private Set<Article> articles;
+	
+	@ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private Set<User> users;
+	
 
 	public Long getId() {
 		return id;

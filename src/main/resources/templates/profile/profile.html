@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+	<h1 class="text-center">My profile</h1>
+	<h3 class="text-center col-12">My publications</h3>
+		<div th:replace="articles/listArticles::list_articles"></div>
+		<div class="row  mt-5">
+		<h3 class="text-center col-12">Manage favorite categories</h3>
+		</div>
+		<div class="row justify-content-between">
+			<div class="col-5">
+			<h4 class="text-center">Add</h4>
+				<div class="row justify-content-between">
+					<div th:each="category : ${availableCategories}">
+					<form th:action="@{/profile/{userId}/favorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
+						<button type="submit" class="btn btn-dark col" th:text="${category.name}"></button>
+					</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-5">
+			<h4 class="text-center">Remove</h4>
+				<div class="row justify-content-between">
+					<div th:each="category : ${currentUser.categories}">
+						<form th:action="@{/profile/{userId}/unfavorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
+							<button type="submit" class="btn btn-warning col" th:text="${category.name}"></button>
+						</form>					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
