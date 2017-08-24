@@ -68,6 +68,13 @@ public class ProfileController {
 		return "profile/profile";
 	}
 	
+	@GetMapping("/profile/dashboard")
+	public String showDashboard(Model model) {
+		Set<Category> favoriteCategories = getCurrentUser().getCategories();
+		model.addAttribute("favoriteCategories", favoriteCategories);
+		return "profile/dashboard";
+	}
+	
 	@PostMapping("/profile/{userId}/favorites/{categoryId}")
 	public String addFavoriteCategory(@PathVariable("userId") long id, @PathVariable("categoryId") long categoryId ,Model model) {
 		User user = getCurrentUser();

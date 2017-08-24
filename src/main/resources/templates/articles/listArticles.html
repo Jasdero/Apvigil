@@ -6,8 +6,8 @@
 <body>
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
-	<h1 class="text-center" th:text="(@{__${#httpServletRequest.requestURI}__} == @{/articles})?'All articles' : 'Sorted articles'"></h1>
-		<div th:fragment="list_articles" class="row mb-2 justify-content-between" th:each="article : ${articles}">
+	<h1 class="text-center">Articles</h1>
+		<div th:fragment="list_articles" class="row mb-2 justify-content-between" th:each="article, aStat : ${articles}" th:unless="${aStat.index > 9}">
 			<a th:href="@{/articles/{articleId}(articleId = ${article.id})}" class="col-8">
 			<span th:text="${article.title} + ' published on ' + ${#dates.format(article.createdOn, 'dd-MM-yyyy')} + ' by '" th:remove="tag"></span>
 			<em th:text="${article.user.userName}"></em>
@@ -16,6 +16,16 @@
 			 	<span th:text="${article.category.name}" th:remove="tag"></span>
 			 </a>
 			<button type="button" class="col-1 ml-auto btn btn-warning inactive" th:text="'+' + ${article.rating.value}" disabled></button>
+		</div>
+		<div class="row justify-content-center">
+			<nav aria-label="Page navigation example col-12">
+			  <ul class="pagination">
+			    <li class="page-item"><a class="page-link" th:href="@{/articles/list/{previous}(previous = ${previous})}">Previous</a></li>
+			    <li class="page-item" th:each=" i : ${#numbers.sequence(1, pages)}">
+			    	<a class="page-link" th:href="@{/articles/list/{pageNumber}(pageNumber = ${i-1})}" th:text="${i}"></a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/articles/list/{next}(next = ${next})}">Next</a></li>
+			  </ul>
+			</nav>
 		</div>
 	</div>
 </body>

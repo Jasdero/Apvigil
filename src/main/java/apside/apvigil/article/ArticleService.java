@@ -3,6 +3,8 @@ package apside.apvigil.article;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import apside.apvigil.rating.Rating;
@@ -24,8 +26,17 @@ public class ArticleService {
 		
 	}
 	
-	public List<Article> getAllArticlesSorted() {
-		return articleRepository.getAllSortedByDate();
+	public List<Article> findAll() {
+		return articleRepository.findAll();
+	}
+	
+	public long count() {
+		return articleRepository.count();
+	}
+	
+	
+	public Page<Article> findAllWithPagination(Pageable pageable) {
+		return articleRepository.findAll(pageable);
 	}
 	
 	
@@ -40,6 +51,10 @@ public class ArticleService {
 	
 	public List<Article> getAllArticlesByCategory(Long id) {
 		return articleRepository.findByCategoryId(id);
+	}
+	
+	public Article findByUrl(String url) {
+		return articleRepository.findByUrl(url);
 	}
 
 }

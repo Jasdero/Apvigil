@@ -6,6 +6,9 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -58,10 +61,26 @@ public class ArticleController {
 	}
 	
 	
-	@GetMapping("/articles")
-	public ModelAndView listArticles() {
+	@GetMapping("/articles/list/{pageNumber}")
+	public ModelAndView listArticles(@PathVariable("pageNumber") int pageNumber) {
 		ModelAndView mav = new ModelAndView("articles/listArticles");
-		mav.addObject("articles", articleService.getAllArticlesSorted());
+		Pageable pageable = new PageRequest(pageNumber, 5, Direction.DESC, "createdOn");
+		long pages = articleService.count()/5;
+		int previous = pageNumber - 1;
+		int next = pageNumber + 1;
+		if (pageNumber == 0) {
+			previous = pageNumber;
+		}
+		
+		if (pageNumber == pages) {
+			next = pageNumber;
+		}
+		
+		
+		mav.addObject("articles", articleService.findAllWithPagination(pageable));
+		mav.addObject("pages", pages+1);
+		mav.addObject("previous", previous);
+		mav.addObject("next", next);
 		return mav;
 	}
 	
@@ -80,6 +99,10 @@ public class ArticleController {
 	
 	@PostMapping("/articles/new")
 	public String processForm(@Valid Article article, BindingResult result) {
+		Article articleExists = articleService.findByUrl(article.getUrl());
+		if (articleExists != null) {
+			result.rejectValue("url", "error.article", "an article with the same url already exists");
+		}
 		if(result.hasErrors()) {
 			return CREATE_ARTICLE_FORM;
 		}

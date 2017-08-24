@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.NotNull;
 
 import apside.apvigil.article.Article;
@@ -30,6 +31,7 @@ public class Category {
 	private String name;
 	
 	@OneToMany(mappedBy = "category")
+	@OrderBy("created_on DESC")
 	private Set<Article> articles;
 	
 	@ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})

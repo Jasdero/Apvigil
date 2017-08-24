@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+	<h1 class="text-center" th:text="Dashboard"></h1>
+		<div class="row mt-4 justify-content-between" th:each="category : ${favoriteCategories}">
+			<h3 class="text-center col-12" th:text="'New in ' + ${category.name}"></h3>
+			<a th:href="@{/articles/categories/{categoryId}}" class="text-center col-12">See all related articles >></a>
+				<div th:each="article, articleStat : ${category.articles}" class="card col-5" th:unless="${articleStat.index > 5}">
+					<div class="card-body">
+						<p class="card-text" th:text="${article.title}"></p>
+						<a class="card-subtitle mb-2 text-muted"
+							 th:href="@{/articles/{articleId}(articleId = ${article.id})}">Learn more</a>
+					</div>
+				</div>
+		</div>
+		<div th:if="${#lists.isEmpty(favoriteCategories)}" class="text-center">
+			No favorites yet. Go to your <a th:href="@{/profile/{userId}(userId = ${currentUser.id})}">profile</a> to add some or 
+			<a th:href="@{/articles}">browse</a> our latest articles
+		</div>
+	</div>
+</body>
+</html>
