@@ -70,7 +70,11 @@ public class ProfileController {
 	
 	@GetMapping("/profile/dashboard")
 	public String showDashboard(Model model) {
-		Set<Category> favoriteCategories = getCurrentUser().getCategories();
+		User user = getCurrentUser();
+		Set<Category> favoriteCategories = user.getCategories();
+		user.setNotifications(0);
+		user.setLastVisit();
+		userRepository.save(user);
 		model.addAttribute("favoriteCategories", favoriteCategories);
 		return "profile/dashboard";
 	}

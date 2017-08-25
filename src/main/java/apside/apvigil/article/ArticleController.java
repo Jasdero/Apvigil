@@ -64,6 +64,8 @@ public class ArticleController {
 	
 	@GetMapping("/articles/list/{pageNumber}")
 	public ModelAndView listArticles(@PathVariable("pageNumber") int pageNumber) {
+		User user = getCurrentUser();
+		userService.setNumberOfNotications(user);
 		ModelAndView mav = new ModelAndView("articles/listArticles");
 		Pageable pageable = new PageRequest(pageNumber, 5, Direction.DESC, "createdOn");
 		long totalPages = articleService.count()/5;
@@ -108,7 +110,7 @@ public class ArticleController {
 		User user = getCurrentUser();
 		Rating rating = new Rating();
 		articleService.addArticle(article, user, rating);
-		return "redirect:/articles";
+		return "redirect:/articles/list/0";
 	}
 	
 	@GetMapping("/articles/{articleId}")

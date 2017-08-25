@@ -2,6 +2,7 @@ package apside.apvigil.security.authentication;
 
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import apside.apvigil.article.ArticleService;
 import apside.apvigil.category.Category;
 import apside.apvigil.category.CategoryRepository;
 
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private ArticleService articleService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -68,5 +73,16 @@ public class UserServiceImpl implements UserService{
 		user.setCategories(categories);
 		categoryRepository.save(category);
 	}
-
+	
+	public void setNumberOfNotications(User user) {
+		Set<Category> categories = user.getCategories();
+		int result = 0;
+		Date lastVisit = user.getLastVisit();
+		for (Category category : categories) {
+			long id = category.getId();
+			result += articleService.countByCreatedOnAfterAndCategoryId(lastVisit, id);
+		}
+		user.setNotifications(result);
+		userRepository.save(user);
+	}
 }

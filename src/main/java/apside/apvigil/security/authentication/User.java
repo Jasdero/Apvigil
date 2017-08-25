@@ -1,5 +1,6 @@
 package apside.apvigil.security.authentication;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -44,6 +47,12 @@ public class User {
 	private String userName;
 
 	private int active;
+	
+	@Column(name = "last_visit")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastVisit;
+	
+	private int notifications;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -113,6 +122,22 @@ public class User {
 
 	public void setActive(int active) {
 		this.active = active;
+	}
+	
+	public Date getLastVisit() {
+		return this.lastVisit;
+	}
+	
+	public void setLastVisit() {
+		this.lastVisit = new Date();
+	}
+	
+	public int getNotifications() {
+		return this.notifications;
+	}
+	
+	public void setNotifications(int notifications) {
+		this.notifications = notifications;
 	}
 
 	public Set<Role> getRoles() {

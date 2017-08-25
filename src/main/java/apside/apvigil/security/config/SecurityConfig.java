@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/profile/**").hasAnyAuthority("ROLE_ADMIN, ROLE_USER, ROLE_SUPERADMIN").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
-				.defaultSuccessUrl("/profile/dashboard")
+				.defaultSuccessUrl("/articles/list/0")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.and().logout()

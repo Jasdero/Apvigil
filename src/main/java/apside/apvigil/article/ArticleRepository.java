@@ -1,5 +1,6 @@
 package apside.apvigil.article;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -17,5 +18,6 @@ public interface ArticleRepository extends CrudRepository<Article, Long>{
 	public List<Article> findAll();
 	public long count();
 	public long countByCategoryId(Long id);
+	public int countByCreatedOnAfterAndCategoryId(Date lastVisit, long id);
 
 }

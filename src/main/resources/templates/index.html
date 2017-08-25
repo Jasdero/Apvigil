@@ -25,7 +25,7 @@
     <ul class="navbar-nav col-11">
     <li class="nav-item">
         <a class="nav-link" th:href="@{/profile/dashboard}" title="Dashboard">
-         	My board
+         	My board <span class="badge badge-danger" th:text="${currentUser.notifications}" th:if="${currentUser.notifications > 0}"></span>
         </a>
       </li>
       <li class="nav-item">

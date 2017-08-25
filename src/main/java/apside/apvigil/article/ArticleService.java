@@ -1,5 +1,6 @@
 package apside.apvigil.article;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class ArticleService {
 	
 	public long countByCategoryId(Long id) {
 		return articleRepository.countByCategoryId(id);
+	}
+	
+	public int countByCreatedOnAfterAndCategoryId(Date lastVisit, long id) {
+		return articleRepository.countByCreatedOnAfterAndCategoryId(lastVisit, id);
 	}
 	
 	
