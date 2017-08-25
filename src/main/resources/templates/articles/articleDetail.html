@@ -26,7 +26,7 @@
 					</form>
 				</div>
 			</div>
-				<a  class="col-12" th:href="@{/articles/user/{userId}(userId= ${article.user.id})}" th:text="'Author : ' + ${article.user.userName}" title="See all publications by this author"></a>
+				<p class="col-12" th:text="'Author : ' + ${article.user.userName}"></p>
 		</div>
 			
 		

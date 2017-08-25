@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -65,29 +66,27 @@ public class ArticleController {
 	public ModelAndView listArticles(@PathVariable("pageNumber") int pageNumber) {
 		ModelAndView mav = new ModelAndView("articles/listArticles");
 		Pageable pageable = new PageRequest(pageNumber, 5, Direction.DESC, "createdOn");
-		long pages = articleService.count()/5;
-		int previous = pageNumber - 1;
-		int next = pageNumber + 1;
-		if (pageNumber == 0) {
-			previous = pageNumber;
-		}
-		
-		if (pageNumber == pages) {
-			next = pageNumber;
-		}
-		
-		
+		long totalPages = articleService.count()/5;
+		int[] previousNext = getNextAndPreviousPages(pageNumber, totalPages);
 		mav.addObject("articles", articleService.findAllWithPagination(pageable));
-		mav.addObject("pages", pages+1);
-		mav.addObject("previous", previous);
-		mav.addObject("next", next);
+		mav.addObject("pages", totalPages+1);
+		mav.addObject("previous", previousNext[0]);
+		mav.addObject("next", previousNext[1]);
 		return mav;
 	}
 	
-	@GetMapping("/articles/categories/{categoryId}")
-	public String getArticlesByCategory(Model model, @PathVariable("categoryId") long id) {
-		model.addAttribute("articles", articleService.getAllArticlesByCategory(id));
-		return "articles/listArticles";
+	@GetMapping("/articles/{categoryName}/{pageNumber}")
+	public String getArticlesByCategory(Model model, @PathVariable("categoryName") String name, @PathVariable("pageNumber") int pageNumber) {
+		Pageable pageable = new PageRequest(pageNumber, 5, Direction.DESC, "createdOn");
+		Page<Article> articles = articleService.getAllArticlesByCategoryName(name, pageable);
+		long totalPages = categoryService.countAssociatedArticles(name)/5;
+		int[] previousNext = getNextAndPreviousPages(pageNumber, totalPages);
+		model.addAttribute("articles", articles);
+		model.addAttribute("pages", totalPages+1);
+		model.addAttribute("previous", previousNext[0]);
+		model.addAttribute("next", previousNext[1]);
+		model.addAttribute("category", categoryService.findOneByName(name));
+		return "articles/listArticlesByCategory";
 	}
 	
 	@GetMapping("/articles/new")
@@ -142,15 +141,26 @@ public class ArticleController {
 		return "redirect:/articles/" + articleId;
 	}
 	
-	@GetMapping("/articles/user/{userId}")
-	public String getArticlesForUser(@PathVariable("userId") long id, Model model) {
-		model.addAttribute("articles", articleService.getAllArticlesByUser(id));
-		return "articles/listArticles";
-	}
 	
 	private User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByEmail(auth.getName());
 		return user;
+	}
+	
+	private int[] getNextAndPreviousPages(int pageNumber, long totalPages) {
+
+		int previous = pageNumber - 1;
+		int next = pageNumber + 1;
+		if (pageNumber == 0) {
+			previous = pageNumber;
+		}
+		
+		if (pageNumber == totalPages) {
+			next = pageNumber;
+		}
+		
+		int[] pages = {previous, next};
+		return pages;
 	}
 }

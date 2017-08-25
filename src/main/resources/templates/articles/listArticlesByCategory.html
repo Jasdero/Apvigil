@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+	<h1 class="text-center">Articles</h1>
+		<div th:replace="articles/listArticles::list_articles"></div>
+		<div class="row justify-content-center">
+			<nav aria-label="Page navigation example col-12">
+			  <ul class="pagination">
+			    <li class="page-item"><a class="page-link" th:href="@{/articles/{categoryName}/{previous}(previous = ${previous}, categoryName = ${category.name})}">Previous</a></li>
+			    <li class="page-item" th:each=" i : ${#numbers.sequence(1, pages)}">
+			    	<a class="page-link" th:href="@{/articles/{categoryName}/{pageNumber}(pageNumber = ${i-1}, categoryName = ${category.name})}" th:text="${i}"></a></li>
+			    <li class="page-item"><a class="page-link" th:href="@{/articles/{categoryName}/{next}(next = ${next}, categoryName = ${category.name})}">Next</a></li>
+			  </ul>
+			</nav>
+		</div>
+	</div>
+</body>
+</html>

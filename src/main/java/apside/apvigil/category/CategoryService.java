@@ -25,6 +25,15 @@ public class CategoryService {
 		return categoryRepository.findOne(id);
 	}
 	
+	public Category findOneByName(String name) {
+		return categoryRepository.findByName(name);
+	}
+	
+	public int countAssociatedArticles(String name) {
+		Category category = categoryRepository.findByName(name);
+		return category.getArticles().size();
+	}
+	
 	
 	
 }

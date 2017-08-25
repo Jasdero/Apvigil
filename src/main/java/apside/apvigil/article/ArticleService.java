@@ -34,6 +34,10 @@ public class ArticleService {
 		return articleRepository.count();
 	}
 	
+	public long countByCategoryId(Long id) {
+		return articleRepository.countByCategoryId(id);
+	}
+	
 	
 	public Page<Article> findAllWithPagination(Pageable pageable) {
 		return articleRepository.findAll(pageable);
@@ -49,8 +53,8 @@ public class ArticleService {
 		return articleRepository.findOne(id);
 	}
 	
-	public List<Article> getAllArticlesByCategory(Long id) {
-		return articleRepository.findByCategoryId(id);
+	public Page<Article> getAllArticlesByCategoryName(String name, Pageable pageable) {
+		return articleRepository.findByCategoryName(name, pageable);
 	}
 	
 	public Article findByUrl(String url) {

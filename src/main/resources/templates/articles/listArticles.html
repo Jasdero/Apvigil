@@ -12,7 +12,7 @@
 			<span th:text="${article.title} + ' published on ' + ${#dates.format(article.createdOn, 'dd-MM-yyyy')} + ' by '" th:remove="tag"></span>
 			<em th:text="${article.user.userName}"></em>
 			 </a>
-			 <a type="button" class="col-2 ml-auto btn btn-info inactive" th:href="@{/articles/categories/{categoryId}(categoryId=${article.category.id})}">
+			 <a type="button" class="col-2 ml-auto btn btn-info inactive" th:href="@{/articles/{categoryName}/0(categoryName=${article.category.name})}">
 			 	<span th:text="${article.category.name}" th:remove="tag"></span>
 			 </a>
 			<button type="button" class="col-1 ml-auto btn btn-warning inactive" th:text="'+' + ${article.rating.value}" disabled></button>
