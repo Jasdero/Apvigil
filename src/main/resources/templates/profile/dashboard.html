@@ -7,16 +7,31 @@
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
 	<h1 class="text-center" th:text="Dashboard"></h1>
-		<div class="row mt-4 justify-content-between" th:each="category : ${favoriteCategories}">
-			<h3 class="text-center col-12" th:text="'New in ' + ${category.name}"></h3>
-			<a th:href="@{/articles/categories/{categoryId}}" class="text-center col-12">See all related articles >></a>
-				<div th:each="article, articleStat : ${category.articles}" class="card col-5" th:unless="${articleStat.index > 5}">
+
+		<div class="row mb-2 justify-content-between" th:each="category : ${favoriteCategories}">
+			<h3 class="text-center col-9" th:text="'New in ' + ${category.name}"></h3>
+				<a th:href="@{/articles/{categoryName}/0(categoryName=${category.name})}" class="text-center col-3">See all related articles >></a>
+			<div class="col-12 col-sm-5" th:each="article, aStat : ${category.articles}"
+				th:unless="${aStat.index > 5}">
+				<div class="card mb-4">
+					<div class="card-header">
+						<a type="button" class="col-auto btn btn-info inactive"
+							th:href="@{/articles/{categoryName}/0(categoryName=${article.category.name})}">
+							<span th:text="${article.category.name}" th:remove="tag"></span>
+						</a>
+					</div>
 					<div class="card-body">
-						<p class="card-text" th:text="${article.title}"></p>
-						<a class="card-subtitle mb-2 text-muted"
-							 th:href="@{/articles/{articleId}(articleId = ${article.id})}">Learn more</a>
+						<h4 class="card-title" th:text="${article.title}">Card title</h4>
+						<p class="card-text" th:text="${#strings.abbreviate(article.description,99)}"></p>
+						<a th:href="@{/articles/{articleId}(articleId = ${article.id})}"
+							class="btn btn-primary">Read</a>
+						<button type="button"
+							class="col-2 btn btn-warning inactive"
+							th:text="'+' + ${article.rating.value}" disabled></button>
+	
 					</div>
 				</div>
+			</div>
 		</div>
 		<div th:if="${#lists.isEmpty(favoriteCategories)}" class="text-center">
 			No favorites yet. Go to your <a th:href="@{/profile/{userId}(userId = ${currentUser.id})}">profile</a> to add some or 

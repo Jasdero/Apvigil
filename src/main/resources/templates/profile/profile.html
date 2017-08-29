@@ -16,20 +16,28 @@
 			<div class="col-5">
 			<h4 class="text-center">Add</h4>
 				<div class="row justify-content-between">
-					<div th:each="category : ${availableCategories}">
-					<form th:action="@{/profile/{userId}/favorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
-						<button type="submit" class="btn btn-dark col" th:text="${category.name}"></button>
-					</form>
+					<div class="card col-12">
+						<div class="card-body">
+							<div class="row">
+								<form class="col-auto" th:each="category : ${availableCategories}" th:action="@{/profile/{userId}/favorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
+									<button type="submit" class="btn btn-dark" th:text="${category.name}"></button>
+								</form>	
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-5">
 			<h4 class="text-center">Remove</h4>
 				<div class="row justify-content-between">
-					<div th:each="category : ${currentUser.categories}">
-						<form th:action="@{/profile/{userId}/unfavorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
-							<button type="submit" class="btn btn-warning col" th:text="${category.name}"></button>
-						</form>					
+					<div class="card col-12">
+						<div class="card-body">
+							<div class="row">
+								<form class="col-auto" th:each="category : ${currentUser.categories}" th:action="@{/profile/{userId}/unfavorites/{categoryId}(userId = ${currentUser.id}, categoryId = ${category.id})}" method="post">
+									<button type="submit" class="btn btn-warning col" th:text="${category.name}"></button>
+								</form>
+							</div>				
+						</div>
 					</div>
 				</div>
 			</div>

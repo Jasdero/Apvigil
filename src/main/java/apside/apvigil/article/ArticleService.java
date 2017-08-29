@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import apside.apvigil.image.Image;
 import apside.apvigil.rating.Rating;
 import apside.apvigil.security.authentication.User;
 
@@ -19,10 +20,12 @@ public class ArticleService {
 	private ArticleRepository articleRepository;
 	
 
-	public void addArticle(Article article, User user, Rating rating) {
+	public void addArticle(Article article, User user, Rating rating, Image image) {
 		article.setRating(rating);
 		rating.setArticle(article);
 		user.addArticle(article);
+		article.setImage(image);
+		image.setArticle(article);
 		articleRepository.save(article);
 		
 	}

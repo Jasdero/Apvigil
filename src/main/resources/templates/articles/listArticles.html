@@ -6,25 +6,53 @@
 <body>
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
-	<h1 class="text-center">Articles</h1>
-		<div th:fragment="list_articles" class="row mb-2 justify-content-between" th:each="article, aStat : ${articles}" th:unless="${aStat.index > 9}">
-			<a th:href="@{/articles/{articleId}(articleId = ${article.id})}" class="col-8">
-			<span th:text="${article.title} + ' published on ' + ${#dates.format(article.createdOn, 'dd-MM-yyyy')} + ' by '" th:remove="tag"></span>
-			<em th:text="${article.user.userName}"></em>
-			 </a>
-			 <a type="button" class="col-2 ml-auto btn btn-info inactive" th:href="@{/articles/{categoryName}/0(categoryName=${article.category.name})}">
-			 	<span th:text="${article.category.name}" th:remove="tag"></span>
-			 </a>
-			<button type="button" class="col-1 ml-auto btn btn-warning inactive" th:text="'+' + ${article.rating.value}" disabled></button>
+		<h1 class="text-center">Articles</h1>
+		<div th:fragment="list_articles"
+			class="row mb-2 justify-content-between">
+			<div class="col-12 col-sm-5" th:each="article, aStat : ${articles}"
+				th:unless="${aStat.index > 9}">
+				
+				<div class="card mb-4">
+					<div class="card-header">
+						<a type="button" class="col-auto btn btn-info inactive"
+							th:href="@{/articles/{categoryName}/0(categoryName=${article.category.name})}">
+							<span th:text="${article.category.name}" th:remove="tag"></span>
+						</a>
+						
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-7">
+								<h4 class="card-title" th:text="${article.title}">Card title</h4>
+								<p class="card-text" th:text="${#strings.abbreviate(article.description,99)}"></p>
+								<a th:href="@{/articles/{articleId}(articleId = ${article.id})}"
+									class="btn btn-primary">Read</a>
+								<button type="button"
+									class="col-2 btn btn-warning inactive"
+									th:text="'+' + ${article.rating.value}" disabled></button>
+							</div>
+							<div class="col-5">
+								<img th:src="@{/images/{image}(image = ${article.image.name})}" alt="" class="img-fluid"/>
+							</div>
+						</div>
+	
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row justify-content-center">
 			<nav aria-label="Page navigation example col-12">
-			  <ul class="pagination">
-			    <li class="page-item"><a class="page-link" th:href="@{/articles/list/{previous}(previous = ${previous})}">Previous</a></li>
-			    <li class="page-item" th:each=" i : ${#numbers.sequence(1, pages)}">
-			    	<a class="page-link" th:href="@{/articles/list/{pageNumber}(pageNumber = ${i-1})}" th:text="${i}"></a></li>
-			    <li class="page-item"><a class="page-link" th:href="@{/articles/list/{next}(next = ${next})}">Next</a></li>
-			  </ul>
+				<ul class="pagination">
+					<li class="page-item"><a class="page-link"
+						th:href="@{/articles/list/{previous}(previous = ${previous})}">Previous</a></li>
+					<li class="page-item" th:each=" i : ${#numbers.sequence(1, pages)}">
+						<a class="page-link"
+						th:href="@{/articles/list/{pageNumber}(pageNumber = ${i-1})}"
+						th:text="${i}"></a>
+					</li>
+					<li class="page-item"><a class="page-link"
+						th:href="@{/articles/list/{next}(next = ${next})}">Next</a></li>
+				</ul>
 			</nav>
 		</div>
 	</div>

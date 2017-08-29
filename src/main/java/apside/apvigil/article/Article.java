@@ -21,6 +21,7 @@ import org.hibernate.validator.constraints.Length;
 
 import apside.apvigil.category.Category;
 import apside.apvigil.comment.Comment;
+import apside.apvigil.image.Image;
 import apside.apvigil.rating.Rating;
 import apside.apvigil.security.authentication.User;
 
@@ -50,6 +51,7 @@ public class Article {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn = new Date();
 	
+
 	@ManyToOne
 	private User user;
 	
@@ -59,6 +61,9 @@ public class Article {
 
 	@OneToOne(mappedBy="article", cascade = CascadeType.ALL)
 	private Rating rating;
+	
+	@OneToOne(mappedBy="article", cascade = CascadeType.ALL)
+	private Image image;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="article")
 	private Set<Comment> comments;
@@ -131,6 +136,14 @@ public class Article {
 	
 	public Date getCreatedOn() {
 		return createdOn;
+	}
+	
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 	
 	public Set<Comment> getComments() {

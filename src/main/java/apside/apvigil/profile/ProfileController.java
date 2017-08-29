@@ -2,7 +2,6 @@ package apside.apvigil.profile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -56,7 +55,7 @@ public class ProfileController {
 			return "redirect:/articles";
 		}
 		List<Category> categories = categoryService.findAllCategories();
-		Set<Category> userCategories = user.getCategories();
+		List<Category> userCategories = user.getCategories();
 		List<Category> availableCategories = new ArrayList<>();
 		for(Category category : categories) {
 			if(!userCategories.contains(category)) {
@@ -71,7 +70,7 @@ public class ProfileController {
 	@GetMapping("/profile/dashboard")
 	public String showDashboard(Model model) {
 		User user = getCurrentUser();
-		Set<Category> favoriteCategories = user.getCategories();
+		List<Category> favoriteCategories = user.getCategories();
 		user.setNotifications(0);
 		user.setLastVisit();
 		userRepository.save(user);

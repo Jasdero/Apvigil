@@ -1,6 +1,7 @@
 package apside.apvigil.security.authentication;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -64,7 +65,7 @@ public class User {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_category", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories;
+	private List<Category> categories;
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -156,11 +157,11 @@ public class User {
 		this.ratings = ratings;
 	}
 	
-	public Set<Category> getCategories() {
+	public List<Category> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Set<Category> categories) {
+	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
 

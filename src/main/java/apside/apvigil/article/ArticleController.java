@@ -1,5 +1,6 @@
 package apside.apvigil.article;
 
+
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,16 +22,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import apside.apvigil.category.Category;
 import apside.apvigil.category.CategoryService;
 import apside.apvigil.comment.Comment;
 import apside.apvigil.comment.CommentService;
+import apside.apvigil.image.Image;
+import apside.apvigil.image.ImageService;
 import apside.apvigil.rating.Rating;
 import apside.apvigil.rating.RatingService;
 import apside.apvigil.security.authentication.User;
 import apside.apvigil.security.authentication.UserServiceImpl;
+
 
 @Controller
 public class ArticleController {
@@ -49,6 +57,11 @@ public class ArticleController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private ImageService imageService;
+	
+
 	
 	@ModelAttribute("currentUser")
 	public User getUser() {
@@ -99,7 +112,7 @@ public class ArticleController {
 	}
 	
 	@PostMapping("/articles/new")
-	public String processForm(@Valid Article article, BindingResult result) {
+	public String processForm(@Valid Article article, BindingResult result, @RequestParam("file") MultipartFile file) {
 		Article articleExists = articleService.findByUrl(article.getUrl());
 		if (articleExists != null) {
 			result.rejectValue("url", "error.article", "an article with the same url already exists");
@@ -107,9 +120,17 @@ public class ArticleController {
 		if(result.hasErrors()) {
 			return CREATE_ARTICLE_FORM;
 		}
+		
+		try {
+			imageService.saveImage(file);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		User user = getCurrentUser();
 		Rating rating = new Rating();
-		articleService.addArticle(article, user, rating);
+		Image image = imageService.findByName(file.getOriginalFilename());
+		articleService.addArticle(article, user, rating, image);
 		return "redirect:/articles/list/0";
 	}
 	

@@ -6,9 +6,9 @@
 <body>
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
-	<h1 class="text-center" th:text="(@{__${#httpServletRequest.requestURI}__} == @{/categories})?'All categories' : 'Sorted categories'"></h1>
+	<h1 class="text-center">Categories</h1>
 		<div class="row mb-2 justify-content-between">
-			<a  th:each="category : ${categories}" th:href="@{/articles/{categoryName}/0(categoryName = ${category.name})}" class="col-2 btn btn-info" title="See associated articles">
+			<a  th:each="category : ${categories}" th:href="@{/articles/{categoryName}/0(categoryName = ${category.name})}" class="col-6 col-sm-auto btn btn-info" title="See associated articles">
 			<span th:text="${category.name}" th:remove="tag"></span>
 			 </a>
 		</div>

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,21 +60,21 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public void saveFavoriteCategory(Category category, User user) {
-		Set<Category> categories = user.getCategories();
+		List<Category> categories = user.getCategories();
 		categories.add(category);
 		user.setCategories(categories);
 		categoryRepository.save(category);
 	}
 	
 	public void removeFavoriteCategory(Category category, User user) {
-		Set<Category> categories = user.getCategories();
+		List<Category> categories = user.getCategories();
 		categories.remove(category);
 		user.setCategories(categories);
 		categoryRepository.save(category);
 	}
 	
 	public void setNumberOfNotications(User user) {
-		Set<Category> categories = user.getCategories();
+		List<Category> categories = user.getCategories();
 		int result = 0;
 		Date lastVisit = user.getLastVisit();
 		for (Category category : categories) {
