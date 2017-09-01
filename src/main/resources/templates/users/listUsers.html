@@ -7,17 +7,20 @@
 	<nav th:replace="index :: myNav"></nav>
 	<div class="container">
 	<h1 class="text-center">Manage users</h1>
-		<div class="row mb-4 mt-4 align-items-center justify-content-between" th:each="user : ${users}">
+		<div class="row mb-2 mt-2 align-items-center justify-content-center" th:each="user : ${users}">
 			<a th:href="@{/articles/user/{userId}(userId = ${user.id})}" class="col-5" title="See publications">
 			<span th:text="${user.userName} + ' - ' + ${user.email}"></span>
-			 </a>
+			</a>
+			<div th:each="role : ${user.roles}" class="col-1" th:if="${role.role} == 'ROLE_SUPERADMIN'">
+			 	<button type="submit" class="btn btn-warning disabled" title="Already on top !">Super Admin</button>
+			 </div>
 			 <div th:each="role : ${user.roles}" class="col-1" th:if="${role.role} == 'ROLE_USER'">
-			 <form th:action="@{/users/{userId}/promote(userId = ${user.id})}" method="post" class="form-group col-1 ml-auto">
+			 <form th:action="@{/users/{userId}/promote(userId = ${user.id})}" method="post" class="form-group">
 			 	<button type="submit" class="btn btn-warning" title="Promote to Admin">Promote</button>
 			 </form>
 			 </div>
 			 <div th:each="role : ${user.roles}" class="col-1" th:if="${role.role} == 'ROLE_ADMIN'">
-			 <form th:action="@{/users/{userId}/demote(userId = ${user.id})}" method="post" class="form-group col-1 ml-auto">
+			 <form th:action="@{/users/{userId}/demote(userId = ${user.id})}" method="post" class="form-group">
 			 	<button type="submit" class="btn btn-warning" title="Demote to User">Demote</button>
 			 </form>
 			 </div>

@@ -68,5 +68,9 @@ public class ArticleService {
 	public Article findByUrl(String url) {
 		return articleRepository.findByUrl(url);
 	}
+	
+	public void delete(Long id) {
+		articleRepository.delete(id);
+	}
 
 }

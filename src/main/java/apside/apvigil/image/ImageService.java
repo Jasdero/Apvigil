@@ -10,6 +10,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import apside.apvigil.security.authentication.User;
+
 @Service
 public class ImageService {
 
@@ -32,11 +34,17 @@ public class ImageService {
 		return repository.findByName(name);
 	}
 
-	public void saveImage(MultipartFile file) throws IOException{
+	public void saveImage(MultipartFile file, User user) throws IOException{
 		if (!file.isEmpty()) {
-			Files.copy(file.getInputStream(), Paths.get(UPLOAD_ROOT, file.getOriginalFilename()));
-			repository.save(new Image(file.getOriginalFilename()));
+			String recordedImageName = user.getEmail()+file.getOriginalFilename();
+			Files.copy(file.getInputStream(), Paths.get(UPLOAD_ROOT, recordedImageName));
+			repository.save(new Image(recordedImageName));
 		}
 	}
+	
+	public void deleteImage(String name) throws IOException {
+		Files.delete(Paths.get(UPLOAD_ROOT, name));
+	}
+	
 	
 }

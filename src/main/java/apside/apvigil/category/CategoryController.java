@@ -50,6 +50,11 @@ public class CategoryController {
 	
 	@PostMapping("/categories/new")
 	public String processForm(@Valid Category category, BindingResult result) {
+		Category categoryExists = categoryService.findOneByName(category.getName());
+		if (categoryExists != null) {
+			result.rejectValue("name", "category.error", "This category already exists");;
+		}
+		
 		if(result.hasErrors()) {
 			return CREATE_CATEGORY_FORM;
 		}

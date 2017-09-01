@@ -1,14 +1,21 @@
 package apside.apvigil.rating;
 
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import apside.apvigil.article.Article;
+import apside.apvigil.security.authentication.User;
 
 
 
@@ -27,6 +34,17 @@ public class Rating {
 	@OneToOne
 	private Article article;
 	
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "user_rating", joinColumns = @JoinColumn(name = "rating_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> users;
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
 	public Long getId() {
 		return id;

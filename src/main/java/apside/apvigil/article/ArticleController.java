@@ -1,6 +1,7 @@
 package apside.apvigil.article;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -11,8 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
-
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -114,6 +114,7 @@ public class ArticleController {
 	@PostMapping("/articles/new")
 	public String processForm(@Valid Article article, BindingResult result, @RequestParam("file") MultipartFile file) {
 		Article articleExists = articleService.findByUrl(article.getUrl());
+		User user = getCurrentUser();
 		if (articleExists != null) {
 			result.rejectValue("url", "error.article", "an article with the same url already exists");
 		}
@@ -122,14 +123,14 @@ public class ArticleController {
 		}
 		
 		try {
-			imageService.saveImage(file);
+			imageService.saveImage(file, user);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		User user = getCurrentUser();
+		
 		Rating rating = new Rating();
-		Image image = imageService.findByName(file.getOriginalFilename());
+		Image image = imageService.findByName(user.getEmail()+file.getOriginalFilename());
 		articleService.addArticle(article, user, rating, image);
 		return "redirect:/articles/list/0";
 	}
@@ -162,6 +163,15 @@ public class ArticleController {
 		Article article = articleService.findArticle(articleId);
 		commentService.saveComment(comment, article, username);
 		return "redirect:/articles/" + articleId;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_SUPERADMIN')")
+	@PostMapping("/articles/{articleId}/delete")
+	public String deleteArticle(@PathVariable("articleId") long articleId) throws IOException {
+		Article article = articleService.findArticle(articleId);
+		imageService.deleteImage(article.getImage().getName());
+		articleService.delete(articleId);
+		return "redirect:/articles/list/0";
 	}
 	
 	

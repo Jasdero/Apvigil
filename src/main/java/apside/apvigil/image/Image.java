@@ -19,8 +19,8 @@ public class Image {
 	
 	@OneToOne
 	private Article article;
-	
-	private Image() {
+
+	public Image() {
 		
 	}
 	
