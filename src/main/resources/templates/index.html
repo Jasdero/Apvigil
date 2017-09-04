@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="myHead">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css}" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"></link>
 <link th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}"
@@ -39,7 +39,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
           <a class="dropdown-item" th:href="@{/categories}">List</a>
-          <a class="dropdown-item" th:href="@{/categories/new}" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')">Create</a>
+          <a class="dropdown-item" th:href="@{/categories/new}" sec:authorize="hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_ADMIN')">Create</a>
         </div>
       </li>
       <li class="nav-item" sec:authorize="hasRole('ROLE_SUPERADMIN')">

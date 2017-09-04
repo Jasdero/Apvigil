@@ -6,8 +6,9 @@
 <body>
 
 	<div class="container">
-		<h2>Create a new article</h2>
-
+	 <div class="row">
+		<h2 class="col12">Create a new article</h2>
+	</div>
 		<div class="row justify-content-center">
 		<div class="col-12">
 			<form th:object="${article}" method="post" enctype="multipart/form-data">
@@ -29,13 +30,15 @@
 						th:errors="*{description}"></p>
 				</div>
 				<div class="form-group">
-					<input type="file" name="file"/>
+				<label for="file">Add a picture</label>
+					<input type="file" name="file" class="btn btn-success form-control-file" id="file"/>
 				</div>
 				<div class="form-group">
-				<label for="category">Category</label>
+				<label for="category">Choose a category</label>
 					<select th:field="*{category}" class="custom-select">
 						<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
 					</select>
+					<a th:href="@{/categories/new}" class="btn btn-info">Or add one</a>
 				</div>
 				<button class="btn btn-info" type="submit" >Add Article</button>
 			</form>
