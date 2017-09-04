@@ -38,7 +38,6 @@
 					<select th:field="*{category}" class="custom-select">
 						<option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
 					</select>
-					<a th:href="@{/categories/new}" class="btn btn-info">Or add one</a>
 				</div>
 				<button class="btn btn-info" type="submit" >Add Article</button>
 			</form>

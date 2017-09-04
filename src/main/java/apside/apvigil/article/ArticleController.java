@@ -174,6 +174,13 @@ public class ArticleController {
 		return "redirect:/articles/list/0";
 	}
 	
+	@PostMapping("/articles/search")
+	public String searchArticles(Model model, @RequestParam("search") String search) {
+		List<Article> articles = articleService.findBySearch(search, search);
+		model.addAttribute("articles",articles);
+		model.addAttribute("search", search);
+		return "articles/sortedArticles";
+	}
 	
 	private User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

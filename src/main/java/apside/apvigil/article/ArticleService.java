@@ -72,5 +72,9 @@ public class ArticleService {
 	public void delete(Long id) {
 		articleRepository.delete(id);
 	}
+	
+	public List<Article> findBySearch(String title, String description) {
+		return articleRepository.findByTitleContainingOrDescriptionContaining(title, description);
+	}
 
 }
