@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import apside.apvigil.article.ArticleService;
 import apside.apvigil.category.Category;
 import apside.apvigil.category.CategoryService;
+import apside.apvigil.global.ApvigilController;
 import apside.apvigil.security.authentication.User;
 import apside.apvigil.security.authentication.UserRepository;
 import apside.apvigil.security.authentication.UserServiceImpl;
 
 @Controller
-public class ProfileController {
+public class ProfileController extends ApvigilController{
 
 	@Autowired
 	private UserServiceImpl userService;
@@ -33,14 +32,8 @@ public class ProfileController {
 	private ArticleService articleService;
 	
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	
-	
-	@ModelAttribute("currentUser")
-	public User getUser() {
-		User user = getCurrentUser();
-		return user;
-	}
 	
 	
 	@ModelAttribute("categories")
@@ -100,9 +93,4 @@ public class ProfileController {
 		return "redirect:/profile/" + id;
 	}
 	
-	private User getCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByEmail(auth.getName());
-		return user;
-	}
 }

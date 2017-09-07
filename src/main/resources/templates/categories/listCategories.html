@@ -9,10 +9,15 @@
 	<h1 class="text-center">Categories</h1>
 		<div class="row mb-2 justify-content-between text-center">
 			<div class="col-12">
-				<a  th:each="category : ${categories}" th:href="@{/articles/{categoryName}/0(categoryName = ${category.name})}" class="btn btn-info" title="See associated articles">
+				<a  th:each="category : ${categories}" 
+					th:href="@{/articles/{categoryName}/0(categoryName = ${category.name})}"
+					th:unless="${category.activated == false}"
+					class="btn btn-info" 
+					title="See associated articles">
 				<span th:text="${category.name}" th:remove="tag"></span>
 				</a>
 			</div>
+			<span class="text-center col" th:text="${successMessage}"></span>
 		</div>
 	</div>
 </body>

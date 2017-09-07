@@ -34,6 +34,18 @@ public class CategoryService {
 		return category.getArticles().size();
 	}
 	
+	public void deleteCategory(Long id) {
+		categoryRepository.delete(id);
+	}
+	
+	public List<Category> findByActivated(boolean activated) {
+		return categoryRepository.findByActivated(activated);
+	}
+	
+	public Long countByActivated(boolean activated) {
+		return categoryRepository.countByActivated(activated);
+	}
+	
 	
 	
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="index :: myHead">
+</head>
+<body>
+	<nav th:replace="index :: myNav"></nav>
+	<div class="container">
+	<h1 class="text-center">Categories</h1>
+		<div class="row mb-2 justify-content-around text-center" th:each="category : ${categories}">
+			<div class="col">
+				<button type="button"	class="btn btn-success" title="Suggested category" th:text="${category.name}"></button>
+			</div>
+			<div class="col">
+				<form th:action="@{/categories/{categoryId}/moderate(categoryId = ${category.id})}" method="post">
+					<button type="submit" class="btn btn-warning" title="Validate this category">Validate</button>
+				</form>
+			</div>
+			<div class="col">
+				<form th:action="@{/categories/{categoryId}/delete(categoryId = ${category.id})}" method="post">
+					<button type="submit" class="btn btn-danger" title="Delete this category">Delete</button>
+				</form>
+			</div>
+			
+		</div>
+		<div class="row">
+			<span class="text-center col" th:text="${successMessage}"></span>
+		</div>
+	</div>
+</body>
+</html>

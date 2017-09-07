@@ -7,7 +7,7 @@
 
 	<div class="container">
 		<h2>Create a new category</h2>
-
+		<h3 sec:authorize="hasRole('ROLE_USER')">You can suggest a new category, a moderator will then validate it</h3>
 		<div class="row justify-content-center">
 		<div class="col-12">
 			<form th:object="${category}" method="post">

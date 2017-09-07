@@ -13,8 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +28,7 @@ import apside.apvigil.category.Category;
 import apside.apvigil.category.CategoryService;
 import apside.apvigil.comment.Comment;
 import apside.apvigil.comment.CommentService;
+import apside.apvigil.global.ApvigilController;
 import apside.apvigil.image.Image;
 import apside.apvigil.image.ImageService;
 import apside.apvigil.rating.Rating;
@@ -39,7 +38,7 @@ import apside.apvigil.security.authentication.UserServiceImpl;
 
 
 @Controller
-public class ArticleController {
+public class ArticleController extends ApvigilController{
 
 	private static final String CREATE_ARTICLE_FORM = "articles/articleForm";
 	
@@ -60,14 +59,6 @@ public class ArticleController {
 	
 	@Autowired
 	private ImageService imageService;
-	
-
-	
-	@ModelAttribute("currentUser")
-	public User getUser() {
-		User user = getCurrentUser();
-		return user;
-	}
 	
 	@ModelAttribute("categories")
 	public List<Category> populateCategories(){
@@ -182,25 +173,6 @@ public class ArticleController {
 		return "articles/sortedArticles";
 	}
 	
-	private User getCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByEmail(auth.getName());
-		return user;
-	}
 	
-	private int[] getNextAndPreviousPages(int pageNumber, long totalPages) {
-
-		int previous = pageNumber - 1;
-		int next = pageNumber + 1;
-		if (pageNumber == 0) {
-			previous = pageNumber;
-		}
-		
-		if (pageNumber == totalPages) {
-			next = pageNumber;
-		}
-		
-		int[] pages = {previous, next};
-		return pages;
-	}
+	
 }

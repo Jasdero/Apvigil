@@ -38,7 +38,7 @@
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
+		<div class="collapse navbar-collapse" id="navbarNav" th:if="${currentUser}">
 			<ul class="navbar-nav col">
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/profile/dashboard}" title="Dashboard"> My board <span
@@ -53,9 +53,15 @@
 					aria-haspopup="true" aria-expanded="false"> Categories </a>
 					<div class="dropdown-menu"
 						aria-labelledby="navbarDropdownMenuLink3">
-						<a class="dropdown-item" th:href="@{/categories}">List</a> <a
-							class="dropdown-item" th:href="@{/categories/new}"
-							sec:authorize="hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_ADMIN')">Create</a>
+						<a class="dropdown-item" th:href="@{/categories}">List</a> 
+						<a class="dropdown-item" th:href="@{/categories/new}">Create</a>
+						<a class="dropdown-item" 
+							th:href="@{/categories/moderate}" 
+							sec:authorize="hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_ADMIN')">
+							Moderate<span
+						class="badge badge-danger" th:text="${moderationActions}"
+						th:if="${moderationActions > 0}"></span>
+						</a>
 					</div></li>
 				<li class="nav-item" sec:authorize="hasRole('ROLE_SUPERADMIN')">
 					<a class="nav-link" th:href="@{/users}"> Users </a>
